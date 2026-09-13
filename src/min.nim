@@ -5,7 +5,6 @@ import std/strformat
 import osproc
 import lexer
 import std/json
-import nimpy
 import os
 
 var p = initOptParser()
@@ -44,8 +43,6 @@ if command == "c":
     quit "Incorrect file extension!"
   var lexemes: seq[Segment] = lex(path)
   var tokens: seq[Token] = tokenize(lexemes)
-  let sys = pyImport("sys")
-  discard sys.path.insert(0, parentDir(currentSourcePath()))
   var content = lower(tokens, "nim")
   let parent = parentDir(path)
   let (_, stem, _) = splitFile(path)
