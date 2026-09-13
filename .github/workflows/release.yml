@@ -27,9 +27,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       # Compile Nim
-      - name: Compile bn.nim
+      - name: Compile min.nim
         run: |
-          nim c ./src/bn.nim
+          nim c ./src/min.nim
 
       # Run build script
       - name: Run build script
