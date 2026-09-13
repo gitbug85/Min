@@ -167,6 +167,10 @@ proc say(s: cstring) {.cdecl, importc.}
 proc arg_count(): csize_t {.importc.}
 proc arg(index: csize_t): cstring {.importc.}
 """)
+      elif cur.value == "ansi":
+        tp.content.add("""
+proc red(s: cstring): cstring {.cdecl, importc.}
+""")
       tokens.delete(0)
   elif cur.kind == "IMP":
     tokens.delete(0)

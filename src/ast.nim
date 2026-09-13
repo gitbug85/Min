@@ -1,0 +1,201 @@
+import lower
+import tokens
+
+type
+  Node = ref object of RootObj
+    name: string
+
+  Identifier = ref object of Node
+    keyword: string
+
+  Assignment = ref object of Node
+    identifier: Identifier
+    value: Node
+
+  File = ref object of Node
+    body: seq[Node]
+
+  String = ref object of Node
+    value: string
+
+  Integer = ref object of Node
+    bits: string
+    value: string
+
+  Call = ref object of Node
+    identifier: string
+    parameters: seq[Identifier]
+
+  If = ref object of Node
+    condition: Node
+    body: seq[Node]
+
+  BinaryOperation = ref object of Node
+    operator: string
+    lOperand: Node
+    rOperand: Node
+
+  UnaryOperation = ref object of Node
+    operator: string
+    operand: Node
+
+  Parser = ref object
+    toks: seq[Token]
+    pos: int
+
+
+proc newNode(name: string): Node =
+  Node(name: name)
+
+
+proc newIdentifier(name: string, keyword: string): Identifier =
+  Identifier(
+    name: "REFERENCE",
+    keyword: keyword
+  )
+
+
+proc newAssignment(identifier: Identifier, value: Node): Assignment =
+  Assignment(
+    name: "ASSIGNMENT",
+    identifier: identifier,
+    value: value
+  )
+
+
+proc newFile(body: seq[Node]): File =
+  File(
+    name: "FILE",
+    body: body
+  )
+
+
+proc newString(value: string): String =
+  String(
+    name: "STRING",
+    value: value
+  )
+
+
+proc newInteger(bits: string, value: string): Integer =
+  Integer(
+    name: "INTEGER",
+    bits: bits,
+    value: value
+  )
+
+
+proc newCall(identifier: string, parameters: seq[Identifier]): Call =
+  Call(
+    name: "CALL",
+    identifier: identifier,
+    parameters: parameters
+  )
+
+
+proc newIf(condition: Node, body: seq[Node]): If =
+  If(
+    name: "IF",
+    condition: condition,
+    body: body
+  )
+
+
+proc newBinaryOperation(
+  operator: string,
+  lOperand: Node,
+  rOperand: Node
+): BinaryOperation =
+  BinaryOperation(
+    name: "BINARY_OPERATION",
+    operator: operator,
+    lOperand: lOperand,
+    rOperand: rOperand
+  )
+
+
+proc newUnaryOperation(
+  operator: string,
+  operand: Node
+): UnaryOperation =
+  UnaryOperation(
+    name: "UNARY_OPERATION",
+    operator: operator,
+    operand: operand
+  )
+
+
+proc newParser(): Parser =
+  Parser(
+    toks: @[],
+    pos: 0
+  )
+
+
+proc current(self: Parser): Token =
+  self.toks[self.pos]
+
+
+proc next(self: Parser): Token =
+  self.toks[self.pos + 1]
+
+
+proc expect(self: Parser, kind: string): Token =
+  let nextToken = self.toks[self.pos + 1]
+
+  if nextToken.kind == kind:
+    return nextToken
+
+  raise newException(ValueError,
+    "Expected '" & kind & "', got '" & nextToken.kind & "'"
+  )
+
+
+proc parseAssignment(self: Parser): Node =
+  raise newException(ValueError, "parseAssignment not implemented")
+
+
+proc parseStatement(self: Parser): Node =
+  let cur = self.current()
+
+  case cur.kind
+  of "MUTABLE":
+    raise newException(ValueError, "MUTABLE parsing not implemented")
+
+  of "FLEX":
+    raise newException(ValueError, "FLEX parsing not implemented")
+
+  of "MUTFLEX":
+    raise newException(ValueError, "MUTFLEX parsing not implemented")
+
+  of "IDENTIFIER":
+    raise newException(ValueError, "IDENTIFIER parsing not implemented")
+
+  else:
+    raise newException(
+      ValueError,
+      "Unexpected token: " & cur.kind
+    )
+
+
+proc parseFile(self: Parser): File =
+  var body: seq[Node] = @[]
+
+  while true:
+    body.add(self.parseStatement())
+
+    let nextToken = self.next()
+
+    if nextToken.kind == "EOF":
+      break
+
+    elif nextToken.kind == "NEWLINE":
+      self.pos += 2
+
+  result = newFile(body)
+
+
+proc genAst(self: Parser, toks: seq[Token]): File =
+  self.toks = toks
+  self.pos = 0
+  result = self.parseFile()

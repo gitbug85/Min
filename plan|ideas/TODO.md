@@ -9,3 +9,4 @@
 - Change name to Min?
 - Remove Python
 - Use Crystal for coloring text and to replace the Python
+- Add Crystal to workflow
