@@ -1,24 +1,26 @@
-# MinOp
+# Min
 
-Language I'm making with the goal of simplifying operators.
-Have Nim installed. Download the latest release. Put the folder where you want it. Then run ```install.sh```.\
-You now should be able to compile .minop files with the command ```minop c ./file.minop```
+Programming language which transpiles to Nim. I'm making it with the goal of simplifying operators.
 
-Example:
+### Install
+Download the latest release. Put the folder where you want it. Then run ```install.sh```.\
+You now should be able to compile .minop files with the command ```min c ./file.min```
+
+### Example
 ```
 # Importing standard libraries
 use math
-use cli
 use string
 use io
+use rustPath
 
 # Import Nim module
 imp multiply
 
 # Get arguments
-left_operand = rs_str_to_i32(rs_arg(1))
-operator = rs_arg(2)
-right_operand = rs_str_to_i32(rs_arg(3))
+left_operand = rs_str_to_i32(arg(1))
+operator = arg(2)
+right_operand = rs_str_to_i32(arg(3))
 
 # Calculate and print
 if rs_str_eq(operator, "+"):

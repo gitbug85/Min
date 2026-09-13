@@ -22,7 +22,7 @@ while true:
     break
 
   of cmdShortOption, cmdLongOption:
-    echo "Option: ", p.key, " = ", p.val
+    discard
 
   of cmdArgument:
     if command == "":
@@ -40,25 +40,18 @@ if command == "c":
     quit "File not found!"
 
   let fileInfo = splitFile(path)
-  if not (fileInfo.ext == ".minop"):
+  if not (fileInfo.ext == ".min"):
     quit "Incorrect file extension!"
   var lexemes: seq[Segment] = lex(path)
   var tokens: seq[Token] = tokenize(lexemes)
   let sys = pyImport("sys")
   discard sys.path.insert(0, parentDir(currentSourcePath()))
-  # let mymodule = pyImport("lower")
-  # let message = mymodule.lower($(%tokens)).to(string)
-  # echo message
   var content = lower(tokens, "nim")
-  echo content
   let parent = parentDir(path)
   let (_, stem, _) = splitFile(path)
   let basename = stem & ".nim"
   let full_path = parent / basename
   writeFile(full_path, content)
-  let output = execProcess(fmt"nim c {full_path}")
-  echo "Output: ", output
-  removeFile(full_path)
 
 else:
   quit("Unknown command: " & command, 1)

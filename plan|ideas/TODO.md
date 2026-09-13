@@ -4,9 +4,5 @@
 - X lexer.pl returns json to bn.nim
 - X Make and link seperate path.rs made from io.rs to checking the types of a file (isDir, hasExtOf...)
 - X Remove Perl
-- Implement Python ast and compilation to llvm ir
-- Add Python and Nimpy installation to workflow
 - Change name to Min?
-- Remove Python
-- Use Crystal for coloring text and to replace the Python
-- Add Crystal to workflow
+- X Remove Python

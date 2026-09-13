@@ -1,8 +1,0 @@
-use io
-use string
-use ansi
-
-name = arg(1)
-mut greeting = red(rs_str_concat(rs_str_concat("\nHello ", name), "\n"))
-
-say greeting

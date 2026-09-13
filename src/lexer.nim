@@ -55,7 +55,6 @@ proc lex*(path: string): seq[Segment] =
         if leftover != 0:
             quit("Error: Invalid indentation")
         
-        echo tabs
         for _ in 0 .. tabs-1:
             fragments.add(Segment(val: "\t", col: 0, ln: 0))
         
@@ -68,7 +67,6 @@ proc lex*(path: string): seq[Segment] =
     for fragment in fragments:
         let regex = re"""([=+\-\*\/"\(\)\\,# ])""" # ([=\+\-\*\/"\(\)\\,# ])
         let parts = splitKeepSep(fragment.val).filterIt(it.len > 0)
-        echo parts
         for part in parts:
             new_fragments.add(Segment(val: part, col: 0, ln: 0))
 
