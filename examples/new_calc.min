@@ -4,9 +4,6 @@ use string
 use io
 use rustPath
 
-# Import Nim module
-imp multiply
-
 # Get arguments
 l_operand = rs_str_to_i32(arg(1))
 operator = arg(2)
@@ -14,8 +11,8 @@ r_operand = rs_str_to_i32(arg(3))
 
 # Calculate and print
 if rs_str_eq(operator, "+"):
-    say rs_i32_to_str(rs_add(l_operand, r_operand))
+    say rs_i32_to_str(l_operand + r_operand)
 if rs_str_eq(operator, "-"):
-    say rs_i32_to_str(rs_sub(l_operand, r_operand))
+    say rs_i32_to_str(l_operand - r_operand)
 if rs_str_eq(operator, "x"):
-    say rs_i32_to_str(nim_mult(l_operand, r_operand))
+    say rs_i32_to_str(l_operand * r_operand)

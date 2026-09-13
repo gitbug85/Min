@@ -3,7 +3,7 @@ import tokens
 
 type
   Node = ref object of RootObj
-    name: string
+    name*: string
 
   Identifier = ref object of Node
     keyword: string
@@ -12,8 +12,8 @@ type
     identifier: Identifier
     value: Node
 
-  File = ref object of Node
-    body: seq[Node]
+  File* = ref object of Node
+    body*: seq[Node]
 
   String = ref object of Node
     value: string
@@ -39,21 +39,18 @@ type
     operator: string
     operand: Node
 
-  Parser = ref object
+  Parser* = ref object
     toks: seq[Token]
     pos: int
 
-
 proc newNode(name: string): Node =
   Node(name: name)
-
 
 proc newIdentifier(name: string, keyword: string): Identifier =
   Identifier(
     name: "REFERENCE",
     keyword: keyword
   )
-
 
 proc newAssignment(identifier: Identifier, value: Node): Assignment =
   Assignment(
@@ -62,20 +59,17 @@ proc newAssignment(identifier: Identifier, value: Node): Assignment =
     value: value
   )
 
-
 proc newFile(body: seq[Node]): File =
   File(
     name: "FILE",
     body: body
   )
 
-
 proc newString(value: string): String =
   String(
     name: "STRING",
     value: value
   )
-
 
 proc newInteger(bits: string, value: string): Integer =
   Integer(
@@ -84,7 +78,6 @@ proc newInteger(bits: string, value: string): Integer =
     value: value
   )
 
-
 proc newCall(identifier: string, parameters: seq[Identifier]): Call =
   Call(
     name: "CALL",
@@ -92,14 +85,12 @@ proc newCall(identifier: string, parameters: seq[Identifier]): Call =
     parameters: parameters
   )
 
-
 proc newIf(condition: Node, body: seq[Node]): If =
   If(
     name: "IF",
     condition: condition,
     body: body
   )
-
 
 proc newBinaryOperation(
   operator: string,
@@ -113,7 +104,6 @@ proc newBinaryOperation(
     rOperand: rOperand
   )
 
-
 proc newUnaryOperation(
   operator: string,
   operand: Node
@@ -124,21 +114,17 @@ proc newUnaryOperation(
     operand: operand
   )
 
-
 proc newParser(): Parser =
   Parser(
     toks: @[],
     pos: 0
   )
 
-
 proc current(self: Parser): Token =
   self.toks[self.pos]
 
-
 proc next(self: Parser): Token =
   self.toks[self.pos + 1]
-
 
 proc expect(self: Parser, kind: string): Token =
   let nextToken = self.toks[self.pos + 1]
@@ -150,10 +136,8 @@ proc expect(self: Parser, kind: string): Token =
     "Expected '" & kind & "', got '" & nextToken.kind & "'"
   )
 
-
 proc parseAssignment(self: Parser): Node =
   raise newException(ValueError, "parseAssignment not implemented")
-
 
 proc parseStatement(self: Parser): Node =
   let cur = self.current()
@@ -177,25 +161,21 @@ proc parseStatement(self: Parser): Node =
       "Unexpected token: " & cur.kind
     )
 
-
 proc parseFile(self: Parser): File =
   var body: seq[Node] = @[]
 
   while true:
     body.add(self.parseStatement())
-
     let nextToken = self.next()
 
     if nextToken.kind == "EOF":
       break
-
     elif nextToken.kind == "NEWLINE":
       self.pos += 2
 
   result = newFile(body)
 
-
-proc genAst(self: Parser, toks: seq[Token]): File =
+proc genAst*(self: Parser, toks: seq[Token]): File =
   self.toks = toks
   self.pos = 0
   result = self.parseFile()
