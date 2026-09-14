@@ -125,7 +125,7 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
 
       var path = findExe("min")
       var parent = parentDir(path)
-      var standard_library = parent / "runtime" / (cur.value & ".a")
+      var standard_library = parent / "std" / (cur.value & ".a")
 
       tp.content.add("{.passL: \"" & standard_library & "\".}\n")
 
@@ -168,7 +168,7 @@ proc arg_count(): csize_t {.importc.}
 proc arg(index: csize_t): cstring {.importc.}
 """)
       tokens.delete(0)
-  elif cur.kind == "IMP":
+  elif cur.kind == "IMPORT":
     tokens.delete(0)
     cur = tokens[0]
     tp.content.add(&"import {cur.value}")

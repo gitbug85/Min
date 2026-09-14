@@ -6,6 +6,7 @@ import osproc
 import lexer
 import std/json
 import os
+import animate
 
 var p = initOptParser()
 let appDir = getAppDir()
@@ -26,14 +27,14 @@ while true:
   of cmdArgument:
     if command == "":
       command = p.key
-    elif command == "c" and path == "":
+    elif command == "t" and path == "":
       path = p.key
     else:
       quit("Unexpected argument: " & p.key, 1)
 
-if command == "c":
+if command == "t":
   if path == "":
-    quit("Usage: myprogram c <path>", 1)
+    quit("Usage: myprogram t <path>", 1)
 
   if not fileExists(path):
     quit "File not found!"
@@ -48,6 +49,7 @@ if command == "c":
   let (_, stem, _) = splitFile(path)
   let basename = stem & ".nim"
   let full_path = parent / basename
+  animate(true, 500)
   writeFile(full_path, content)
 
 else:

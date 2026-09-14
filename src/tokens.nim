@@ -54,7 +54,7 @@ proc tokenize*(lexemes_objs: var seq[Segment]): seq[Token] =
       of "use":
         result.add(Token(kind: "USE", value: lexeme))
       of "imp":
-        result.add(Token(kind: "IMP", value: lexeme))
+        result.add(Token(kind: "IMPORT", value: lexeme))
       of "if":
         result.add(Token(kind: "IF", value: lexeme))
       of "elif":

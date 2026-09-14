@@ -1,0 +1,8 @@
+use io
+use string
+
+first = arg(1)
+second = arg(2)
+
+if rs_str_eq(first, "t"):
+    echo "test"
