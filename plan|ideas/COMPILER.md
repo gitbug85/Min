@@ -11,3 +11,9 @@ bn.nim (controller)
 6. (string) Ignore # and after #
 **tokenizes** -> tokens ->
 **etc**
+
+
+
+
+
+nim libraries with c abi -> c files -> .a files then it can be linked
