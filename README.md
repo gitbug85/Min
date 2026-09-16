@@ -4,7 +4,7 @@ Programming language which transpiles to Nim. I'm making it with the goal of sim
 
 ### Install
 Download the latest release. Put the folder where you want it. Then run ```install.sh```.\
-You now should be able to compile .min files with the command ```min c ./file.min```
+You now should be able to transpile .min files with the command ```min c ./file.min```
 
 ### Example
 ```
