@@ -1,4 +1,4 @@
-import lower
+import codegen
 import tokens
 
 type
@@ -7,6 +7,7 @@ type
 
   Identifier = ref object of Node
     keyword: string
+    value: string
 
   Assignment = ref object of Node
     identifier: Identifier
@@ -46,10 +47,11 @@ type
 proc newNode(name: string): Node =
   Node(name: name)
 
-proc newIdentifier(name: string, keyword: string): Identifier =
+proc newIdentifier(name: string, keyword: string, value: string): Identifier =
   Identifier(
     name: "REFERENCE",
-    keyword: keyword
+    keyword: keyword,
+    value: value
   )
 
 proc newAssignment(identifier: Identifier, value: Node): Assignment =
@@ -114,9 +116,9 @@ proc newUnaryOperation(
     operand: operand
   )
 
-proc newParser(): Parser =
+proc newParser*(toks: seq[Token]): Parser =
   Parser(
-    toks: @[],
+    toks: toks,
     pos: 0
   )
 
@@ -130,6 +132,7 @@ proc expect(self: Parser, kind: string): Token =
   let nextToken = self.toks[self.pos + 1]
 
   if nextToken.kind == kind:
+    self.pos+=1
     return nextToken
 
   raise newException(ValueError,
@@ -140,7 +143,7 @@ proc parseAssignment(self: Parser): Node =
   raise newException(ValueError, "parseAssignment not implemented")
 
 proc parseStatement(self: Parser): Node =
-  let cur = self.current()
+  var cur = self.current()
 
   case cur.kind
   of "MUTABLE":
@@ -154,6 +157,9 @@ proc parseStatement(self: Parser): Node =
 
   of "IDENTIFIER":
     raise newException(ValueError, "IDENTIFIER parsing not implemented")
+  of "USE":
+    var next = self.expect("IDENT")
+    echo next.value
 
   else:
     raise newException(
@@ -175,7 +181,5 @@ proc parseFile(self: Parser): File =
 
   result = newFile(body)
 
-proc genAst*(self: Parser, toks: seq[Token]): File =
-  self.toks = toks
-  self.pos = 0
+proc genAst*(self: Parser): File =
   result = self.parseFile()

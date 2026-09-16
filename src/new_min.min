@@ -1,5 +1,6 @@
 use io
 use string
+use libnimEcho
 
 first = arg(1)
 second = arg(2)

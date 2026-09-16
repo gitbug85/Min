@@ -71,7 +71,6 @@ echo greeting
 | Push |<<|
 | Pop |>>|
 | Range |\[#..#\]|
-| Membership |->|
 | Index |\[#\]|
 | Index Assignment |\[#\] =|
 | Dereference |@|

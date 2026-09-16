@@ -105,7 +105,7 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
     expect_value(tp, tokens)
     tp.content.add(")")
   elif cur.kind == "ECHO":
-    tp.content.add("echo(")
+    tp.content.add("nimEcho(")
     tokens.delete(0)
     expect_value(tp, tokens)
     tp.content.add(")")
@@ -137,7 +137,7 @@ proc rs_mult(a: int32, b: int32): int32 {.importc.}
 proc rs_int_div(a: int32, b: int32): int32 {.importc.}
 proc rs_str_to_i32(s: cstring): int32 {.importc.}
 """)
-      elif cur.value == "nimPath":
+      elif cur.value == "libnimPath":
         tp.content.add("""
 proc jjoinPath(p: cstring, o: cstring): cstring {.importc.}
 proc pparentDir(p: cstring): cstring {.importc.}
@@ -162,10 +162,13 @@ proc rs_i32_to_str(value: int32): cstring {.importc.}
 """)
       elif cur.value == "io":
         tp.content.add("""
-proc echo(s: cstring) {.cdecl, importc.}
 proc say(s: cstring) {.cdecl, importc.}
 proc arg_count(): csize_t {.importc.}
 proc arg(index: csize_t): cstring {.importc.}
+""")
+      elif cur.value == "libnimEcho":
+        tp.content.add("""
+proc nimEcho(s: cstring) {.cdecl, importc.}
 """)
       tokens.delete(0)
   elif cur.kind == "IMPORT":
@@ -189,7 +192,7 @@ proc transpile(tp: var Transpiler, tokens: var seq[Token]): string =
   tp.content
 
 # Target is either LLVM IR or Nim
-proc lower*(tokens: var seq[Token], target: string): string =
+proc llower*(tokens: var seq[Token], target: string): string =
   # Either transpile to Nim or generate LLVM IR (codegen)
   if target == "llvm":
     return ""

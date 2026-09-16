@@ -3,17 +3,6 @@ use std::os::raw::c_char;
 use std::ffi::CString;
 use std::ptr;
 
-// Echo inspired by Nim
-#[no_mangle]
-pub unsafe extern "C" fn echo(s: *const c_char) {
-    if s.is_null() {
-        return;
-    }
-
-    let s = CStr::from_ptr(s).to_string_lossy();
-    print!("{s}");
-}
-
 // Say inspired by Perl
 #[no_mangle]
 pub unsafe extern "C" fn say(s: *const c_char) {
