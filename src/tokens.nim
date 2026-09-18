@@ -51,10 +51,12 @@ proc tokenize*(lexemes_objs: var seq[Segment]): seq[Token] =
         result.add(Token(kind: "FLEX", value: lexeme))
       of "mutflex":
         result.add(Token(kind: "MUTFLEX", value: lexeme))
-      of "use":
+      of "use": # For files within the project
         result.add(Token(kind: "USE", value: lexeme))
-      of "imp":
+      of "imp": # For downloaded libraries/packages
         result.add(Token(kind: "IMPORT", value: lexeme))
+      of "util": # For standard libraries
+        result.add(Token(kind: "UTILITY", value: lexeme))
       of "if":
         result.add(Token(kind: "IF", value: lexeme))
       of "elif":

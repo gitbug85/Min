@@ -44,6 +44,11 @@ type
     toks: seq[Token]
     pos: int
 
+  # Util, use or import
+  Outside* = ref object of Node
+    outside: string
+    identifier: string
+
 proc newNode(name: string): Node =
   Node(name: name)
 
@@ -116,6 +121,9 @@ proc newUnaryOperation(
     operand: operand
   )
 
+proc newOutside(outside: string, identifier: string): Outside =
+  Outside(outside: outside, identifier: identifier)
+
 proc newParser*(toks: seq[Token]): Parser =
   Parser(
     toks: toks,
@@ -148,18 +156,21 @@ proc parseStatement(self: Parser): Node =
   case cur.kind
   of "MUTABLE":
     raise newException(ValueError, "MUTABLE parsing not implemented")
-
   of "FLEX":
     raise newException(ValueError, "FLEX parsing not implemented")
-
   of "MUTFLEX":
     raise newException(ValueError, "MUTFLEX parsing not implemented")
-
   of "IDENTIFIER":
     raise newException(ValueError, "IDENTIFIER parsing not implemented")
+  of "UTILITY":
+    var next = self.expect("IDENT")
+    return newOutside("util", next.value)
   of "USE":
     var next = self.expect("IDENT")
-    echo next.value
+    return newOutside("use", next.value)
+  of "IMPORT":
+    var next = self.expect("IDENT")
+    return newOutside("imp", next.value)
 
   else:
     raise newException(
