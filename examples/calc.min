@@ -1,21 +1,17 @@
-# Get standard libraries
 util math
 util string
 util io
-util rustPath
+util rsPath
 
-# Get module
 use multiply
 
-# Get arguments
-l_operand = rsStrToi32(rsArg(1))
-operator = rsArg(2)
-r_operand = rsStrToi32(rsArg(3))
+l_operand = strToi32(arg(1))
+operator = arg(2)
+r_operand = strToi32(arg(3))
 
-# Calculate and print
-if rsStrEq(operator, "+"):
-    say rsi32ToStr(rsAdd(l_operand, r_operand))
-if rsStrEq(operator, "-"):
-    say rsi32ToStr(rsSub(l_operand, r_operand))
-if rsStrEq(operator, "x"):
-    say rsi32ToStr(nimMult(l_operand, r_operand))
+if strEq(operator, "+"):
+    say i32ToStr(add(l_operand, r_operand))
+if strEq(operator, "-"):
+    say i32ToStr(sub(l_operand, r_operand))
+if strEq(operator, "x"):
+    say i32ToStr(mult(l_operand, r_operand))

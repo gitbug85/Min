@@ -3,6 +3,7 @@ import std/strformat
 import tables
 import std/os
 import std/strutils
+import process_transpiler
 
 type
   Transpiler = object
@@ -60,7 +61,10 @@ proc expect_value(tp: var Transpiler, tokens: var seq[Token]) =
     tp.content.add(&"cstring({cur.value})")
     tokens.delete(0)
   elif cur.kind == "IDENT":
-    tp.content.add(cur.value)
+    if tokens[1].kind == "LEFT_PAREN":
+      tp.content.add(processes[cur.value])
+    else:
+      tp.content.add(cur.value)
     tokens.delete(0)
     emit_arguments(tp, tokens)
   else:
@@ -127,7 +131,6 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
       var path = findExe("min")
       var parent = parentDir(path)
       var standard_library = parent / "std" / (cur.value & ".a")
-      echo cur.value
 
       if cur.value.startsWith("nim"):
         tp.content.add("importAbsolutePath(\"" & (parent / "std" / cur.value) & "\")")
