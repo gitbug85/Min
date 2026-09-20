@@ -1,7 +1,7 @@
 util io
 util string
 
-name = arg(1)
-mut greeting = rs_str_concat(rs_str_concat("\nHello ", name), "\n")
+name = rsArg(1)
+mut greeting = rsStrConcat(rsStrConcat("\nHello ", name), "\n")
 
 say greeting

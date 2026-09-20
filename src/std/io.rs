@@ -5,7 +5,7 @@ use std::ptr;
 
 // Say inspired by Perl
 #[no_mangle]
-pub unsafe extern "C" fn say(s: *const c_char) {
+pub unsafe extern "C" fn rsSay(s: *const c_char) {
     if s.is_null() {
         return;
     }
@@ -15,12 +15,12 @@ pub unsafe extern "C" fn say(s: *const c_char) {
 }
 
 #[no_mangle]
-pub extern "C" fn argCount() -> usize {
+pub extern "C" fn rsArgCount() -> usize {
     std::env::args_os().count()
 }
 
 #[no_mangle]
-pub extern "C" fn arg(index: usize) -> *mut c_char {
+pub extern "C" fn rsArg(index: usize) -> *mut c_char {
     match std::env::args_os().nth(index) {
         Some(arg) => {
             let arg = arg.to_string_lossy();

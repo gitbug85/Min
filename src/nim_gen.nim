@@ -101,7 +101,7 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
     tokens.delete(0)
     expect_assignment(tp, tokens, true)
   elif cur.kind == "SAY":
-    tp.content.add("say(")
+    tp.content.add("rsSay(")
     tokens.delete(0)
     expect_value(tp, tokens)
     tp.content.add(")")
@@ -138,40 +138,40 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
 
       if cur.value == "math":
         tp.content.add("""
-proc rs_add(a: int32, b: int32): int32 {.importc.}
-proc rs_sub(a: int32, b: int32): int32 {.importc.}
-proc rs_mult(a: int32, b: int32): int32 {.importc.}
-proc rs_int_div(a: int32, b: int32): int32 {.importc.}
-proc rs_str_to_i32(s: cstring): int32 {.importc.}
+proc rsAdd(a: int32, b: int32): int32 {.importc.}
+proc rsSub(a: int32, b: int32): int32 {.importc.}
+proc rsMult(a: int32, b: int32): int32 {.importc.}
+proc rsIntDiv(a: int32, b: int32): int32 {.importc.}
+proc rsStrToi32(s: cstring): int32 {.importc.}
 """)
       elif cur.value == "libnimPath":
         tp.content.add("""
-proc jjoinPath(p: cstring, o: cstring): cstring {.importc.}
-proc pparentDir(p: cstring): cstring {.importc.}
-prc bbasename(p: cstring): cstring {.importc.}
-proc sstem(p: cstring): cstring {.importc.}
-proc eext(p: cstring): cstring {.importc.}
+proc nimJoinPath(p: cstring, o: cstring): cstring {.importc.}
+proc nimParentDir(p: cstring): cstring {.importc.}
+prc nimBasename(p: cstring): cstring {.importc.}
+proc nimStem(p: cstring): cstring {.importc.}
+proc mimExt(p: cstring): cstring {.importc.}
 """)
       elif cur.value == "rustPath":
         tp.content.add("""
-proc iisFile(path: cstring): bool {.importc.}
-proc iisDir(path: cstring): bool {.importc.}
-proc hhasExtOf(path: cstring, ext: cstring): bool {.importc.}
+proc rsIsFile(path: cstring): bool {.importc.}
+proc rsIsDir(path: cstring): bool {.importc.}
+proc rsHasExtOf(path: cstring, ext: cstring): bool {.importc.}
 """)
       elif cur.value == "string":
         tp.content.add("""
-proc rs_str_len(s: cstring): csize_t {.importc.}
-proc rs_str_eq(a: cstring, b: cstring): bool {.importc.}
-proc rs_str_dup(s: cstring): cstring {.importc.}
-proc rs_str_free(s: cstring) {.importc.}
-proc rs_str_concat(a: cstring, b: cstring): cstring {.importc.}
-proc rs_i32_to_str(value: int32): cstring {.importc.}
+proc rsStrLen(s: cstring): csize_t {.importc.}
+proc rsStrEq(a: cstring, b: cstring): bool {.importc.}
+proc rsStrDup(s: cstring): cstring {.importc.}
+proc rsStrFree(s: cstring) {.importc.}
+proc rsStrConcat(a: cstring, b: cstring): cstring {.importc.}
+proc rsi32ToStr(value: int32): cstring {.importc.}
 """)
       elif cur.value == "io":
         tp.content.add("""
-proc say(s: cstring) {.cdecl, importc.}
-proc arg_count(): csize_t {.importc.}
-proc arg(index: csize_t): cstring {.importc.}
+proc rsSay(s: cstring) {.cdecl, importc.}
+proc rsArgCount(): csize_t {.importc.}
+proc rsArg(index: csize_t): cstring {.importc.}
 """)
       elif cur.value == "libnimEcho":
         tp.content.add("""

@@ -1,3 +1,5 @@
 import tables
 
-let processes = {"say": "rsSay", "echo": "nimEcho"}.toTable
+let processes = {
+    "replaceMe": "replaceMe",
+    }.toTable

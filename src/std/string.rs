@@ -3,7 +3,7 @@ use std::os::raw::c_char;
 use std::ptr;
 
 #[no_mangle]
-pub extern "C" fn rs_str_len(s: *const c_char) -> usize {
+pub extern "C" fn rsStrLen(s: *const c_char) -> usize {
     if s.is_null() {
         return 0;
     }
@@ -12,7 +12,7 @@ pub extern "C" fn rs_str_len(s: *const c_char) -> usize {
 }
 
 #[no_mangle]
-pub extern "C" fn rs_str_eq(a: *const c_char, b: *const c_char) -> bool {
+pub extern "C" fn rsStrEq(a: *const c_char, b: *const c_char) -> bool {
     if a.is_null() || b.is_null() {
         return a == b;
     }
@@ -21,7 +21,7 @@ pub extern "C" fn rs_str_eq(a: *const c_char, b: *const c_char) -> bool {
 }
 
 #[no_mangle]
-pub extern "C" fn rs_str_dup(s: *const c_char) -> *mut c_char {
+pub extern "C" fn rsStrDup(s: *const c_char) -> *mut c_char {
     if s.is_null() {
         return ptr::null_mut();
     }
@@ -35,7 +35,7 @@ pub extern "C" fn rs_str_dup(s: *const c_char) -> *mut c_char {
 }
 
 #[no_mangle]
-pub extern "C" fn rs_str_free(s: *mut c_char) {
+pub extern "C" fn rsStrFree(s: *mut c_char) {
     if s.is_null() {
         return;
     }
@@ -46,7 +46,7 @@ pub extern "C" fn rs_str_free(s: *mut c_char) {
 }
 
 #[no_mangle]
-pub extern "C" fn rs_str_concat(a: *const c_char, b: *const c_char) -> *mut c_char {
+pub extern "C" fn rsStrConcat(a: *const c_char, b: *const c_char) -> *mut c_char {
     if a.is_null() || b.is_null() {
         return ptr::null_mut();
     }
@@ -65,7 +65,7 @@ pub extern "C" fn rs_str_concat(a: *const c_char, b: *const c_char) -> *mut c_ch
 }
 
 #[no_mangle]
-pub extern "C" fn rs_i32_to_str(value: i32) -> *mut c_char {
+pub extern "C" fn rsi32ToStr(value: i32) -> *mut c_char {
     match CString::new(value.to_string()) {
         Ok(s) => s.into_raw(),
         Err(_) => ptr::null_mut(),

@@ -12,17 +12,17 @@ fn c_path(path: *const c_char) -> Option<&'static Path> {
 }
 
 #[no_mangle]
-pub extern "C" fn iisFile(path: *const c_char) -> bool {
+pub extern "C" fn rsIsFile(path: *const c_char) -> bool {
     c_path(path).map_or(false, |p| p.is_file())
 }
 
 #[no_mangle]
-pub extern "C" fn iisDir(path: *const c_char) -> bool {
+pub extern "C" fn rsIsDir(path: *const c_char) -> bool {
     c_path(path).map_or(false, |p| p.is_dir())
 }
 
 #[no_mangle]
-pub extern "C" fn hhasExtOf(
+pub extern "C" fn rsHasExtOf(
     path: *const c_char,
     ext: *const c_char,
 ) -> bool {
