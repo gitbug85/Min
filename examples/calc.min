@@ -1,11 +1,11 @@
-# Importing standard libraries
-use math
-use string
-use io
-use rustPath
+# Get standard libraries
+util math
+util string
+util io
+util rustPath
 
-# Import Nim module
-imp multiply
+# Get module
+use multiply
 
 # Get arguments
 l_operand = rs_str_to_i32(arg(1))

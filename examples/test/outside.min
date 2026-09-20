@@ -1,3 +1,2 @@
-util testOne
-imp testTwo
-use testThree
+util nimEcho
+echo "test"

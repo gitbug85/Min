@@ -1,5 +1,5 @@
-use io
-use string
+util io
+util string
 
 name = arg(1)
 mut greeting = rs_str_concat(rs_str_concat("\nHello ", name), "\n")

@@ -2,6 +2,7 @@ import tokens
 import std/strformat
 import tables
 import std/os
+import std/strutils
 
 type
   Transpiler = object
@@ -119,13 +120,19 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
       quit("Error: Expected colon at end of if statement")
     tp.content.add(":")
     tokens.delete(0)
-  elif cur.kind == "USE":
+  elif cur.kind == "UTILITY":
       tokens.delete(0)
       cur = tokens[0]
-
+      
       var path = findExe("min")
       var parent = parentDir(path)
       var standard_library = parent / "std" / (cur.value & ".a")
+      echo cur.value
+
+      if cur.value.startsWith("nim"):
+        tp.content.add("importAbsolutePath(\"" & (parent / "std" / cur.value) & "\")")
+        tokens.delete(0)
+        return
 
       tp.content.add("{.passL: \"" & standard_library & "\".}\n")
 
@@ -171,7 +178,7 @@ proc arg(index: csize_t): cstring {.importc.}
 proc nimEcho(s: cstring) {.cdecl, importc.}
 """)
       tokens.delete(0)
-  elif cur.kind == "IMPORT":
+  elif cur.kind == "USE":
     tokens.delete(0)
     cur = tokens[0]
     tp.content.add(&"import {cur.value}")
@@ -199,6 +206,9 @@ proc llower*(tokens: var seq[Token], target: string): string =
   else:
     var transpiler = Transpiler(
       scope: initTable[string, bool](),
-      content: ""
+      content: """import std/macros
+macro importAbsolutePath(path: static[string]): untyped =
+  result = newTree(nnkImportStmt, newLit(path))
+"""
     )
     return transpile(transpiler, tokens)
