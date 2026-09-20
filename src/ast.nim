@@ -178,6 +178,19 @@ proc parseStatement(self: Parser): Node =
       "Unexpected token: " & cur.kind
     )
 
+proc skipNewlines(self: Parser): int =
+  var skipping = true
+  var indents = 0
+  while skipping:
+    var cur = self.current()
+    if cur.kind == "NEWLINE":
+      self.pos+=1
+    elif cur.kind == "TAB":
+      indents+=1
+      self.pos+=1
+    else:
+      skipping = false
+
 proc parseFile(self: Parser): File =
   var body: seq[Node] = @[]
 
@@ -187,8 +200,7 @@ proc parseFile(self: Parser): File =
 
     if nextToken.kind == "EOF":
       break
-    elif nextToken.kind == "NEWLINE":
-      self.pos += 2
+    var indents = self.skipNewlines()
 
   result = newFile(body)
 

@@ -86,7 +86,12 @@ Current instance -> $.
 Multiline comments\
 \#\#
 
-Special types to add:
+To add:
 arr (Rust array)
 seq (Nim sequence)
+
+proc (what most languages would call a function)
+
+-> (in)
+
 
