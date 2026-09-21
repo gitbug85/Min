@@ -4,29 +4,30 @@ Programming language which transpiles to Nim. I'm making it with the goal of sim
 
 ### Install
 Download the latest release. Put the folder where you want it. Then run ```install.sh```.\
-You now should be able to transpile .min files with the command ```min c ./file.min```
+You now should be able to transpile .min files with the command ```min t ./file.min```
 
 ### Example
 ```
-# Importing standard libraries
-use math
-use string
-use io
-use rustPath
+# Get standard libraries
+util math
+util string
+util io
+util rsPath
 
-# Import Nim module
-imp multiply
+# Get Nim module
+use multiply
 
 # Get arguments
-left_operand = rs_str_to_i32(arg(1))
+l_operand = strToi32(arg(1))
 operator = arg(2)
-right_operand = rs_str_to_i32(arg(3))
+r_operand = strToi32(arg(3))
 
-# Calculate and print
-if rs_str_eq(operator, "+"):
-    say rs_i32_to_str(rs_add(left_operand, right_operand))
-if rs_str_eq(operator, "-"):
-    say rs_i32_to_str(rs_sub(left_operand, right_operand))
-if rs_str_eq(operator, "x"):
-    say rs_i32_to_str(nim_mult(left_operand, right_operand))
+# Print
+if strEq(operator, "+"):
+    say i32ToStr(add(l_operand, r_operand))
+if strEq(operator, "-"):
+    say i32ToStr(sub(l_operand, r_operand))
+if strEq(operator, "x"):
+    say i32ToStr(mult(l_operand, r_operand))
+
 ```
