@@ -155,21 +155,30 @@ proc parseStatement(self: Parser): Node =
 
   case cur.kind
   of "MUTABLE":
+    self.pos+=1
+    cur = self.current()
     raise newException(ValueError, "MUTABLE parsing not implemented")
   of "FLEX":
+    self.pos+=1
+    cur = self.current()
     raise newException(ValueError, "FLEX parsing not implemented")
   of "MUTFLEX":
+    self.pos+=1
+    cur = self.current()
     raise newException(ValueError, "MUTFLEX parsing not implemented")
   of "IDENTIFIER":
     raise newException(ValueError, "IDENTIFIER parsing not implemented")
   of "UTILITY":
     var next = self.expect("IDENT")
+    self.pos+=1
     return newOutside("util", next.value)
   of "USE":
     var next = self.expect("IDENT")
+    self.pos+=1
     return newOutside("use", next.value)
   of "IMPORT":
     var next = self.expect("IDENT")
+    self.pos+=1
     return newOutside("imp", next.value)
 
   else:

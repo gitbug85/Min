@@ -90,7 +90,8 @@ To add:
 arr (Rust array)
 seq (Nim sequence)
 
-proc (what most languages would call a function)
+proc getThree(): int #{CDecl, NoMangle}
+    3
 
 -> (in)
 

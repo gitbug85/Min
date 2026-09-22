@@ -1,9 +1,0 @@
-util io
-util string
-util libnimEcho
-
-first = arg(1)
-second = arg(2)
-
-if rs_str_eq(first, "t"):
-    echo "test"
