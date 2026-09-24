@@ -147,7 +147,15 @@ proc expect(self: Parser, kind: string): Token =
     "Expected '" & kind & "', got '" & nextToken.kind & "'"
   )
 
-proc parseAssignment(self: Parser): Node =
+proc parseExpression(self: Parser): Node =
+  var cur = self.current()
+  return newInteger("8", "43")
+
+proc parseAssignment(self: Parser, keyword: string): Node =
+  var identTok = self.current()
+  discard self.expect("EQUAL")
+  self.pos+=1
+  var valNode = self.parseExpression()
   raise newException(ValueError, "parseAssignment not implemented")
 
 proc parseStatement(self: Parser): Node =
@@ -156,18 +164,15 @@ proc parseStatement(self: Parser): Node =
   case cur.kind
   of "MUTABLE":
     self.pos+=1
-    cur = self.current()
-    raise newException(ValueError, "MUTABLE parsing not implemented")
+    self.parseAssignment("mut")
   of "FLEX":
     self.pos+=1
-    cur = self.current()
-    raise newException(ValueError, "FLEX parsing not implemented")
+    self.parseAssignment("flex")
   of "MUTFLEX":
     self.pos+=1
-    cur = self.current()
-    raise newException(ValueError, "MUTFLEX parsing not implemented")
+    self.parseAssignment("mutflex")
   of "IDENTIFIER":
-    raise newException(ValueError, "IDENTIFIER parsing not implemented")
+    self.parseAssignment("")
   of "UTILITY":
     var next = self.expect("IDENT")
     self.pos+=1
