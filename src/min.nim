@@ -46,12 +46,12 @@ if command == "t":
   var lexemes: seq[Segment] = lex(path)
   var tokens: seq[Token] = tokenize(lexemes)
   
-  # for tok in tokens:
-  #   echo tok.kind
+  for tok in tokens:
+    echo tok.kind
 
   # Testing out ast here until ready
-  # var nim_code = lower(tokens, "nim")
-  # echo nim_code
+  var nim_code = lower(tokens, "nim")
+  echo nim_code
 
   var content = llower(tokens, "nim")
   let parent = parentDir(path)

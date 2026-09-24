@@ -1,1 +1,5 @@
 util nimEcho
+mut test = "test"
+testTwo = 43
+mutflex testThree = ""
+flex flexTest = "zzz"

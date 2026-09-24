@@ -7,8 +7,8 @@ proc lower*(tokens: seq[Token], target: string): string =
     var parser = newParser(tokens)
     var file = genAst(parser)
 
-    var names = ""
+    var names = "\n"
     for node in file.body:
-        names &= node.name
+        names &= node.name & "\n"
 
     return names

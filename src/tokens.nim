@@ -11,7 +11,7 @@ type
 proc isQuotedString(s: string): bool =
   return s.len >= 2 and s.startsWith("\"") and s.endsWith("\"")
 
-proc isNumber(s: string): bool =
+proc isInteger(s: string): bool =
   try:
     discard parseInt(s)
     return true
@@ -76,8 +76,8 @@ proc tokenize*(lexemes_objs: var seq[Segment]): seq[Token] =
       of ")":
         result.add(Token(kind: "RIGHT_PAREN", value: lexeme))
       else:
-        if isNumber(lexeme):
-          result.add(Token(kind: "NUMBER", value: lexeme))
+        if isInteger(lexeme):
+          result.add(Token(kind: "INT", value: lexeme))
         elif isQuotedString(lexeme):
           result.add(Token(kind: "STRING", value: lexeme))
         else:

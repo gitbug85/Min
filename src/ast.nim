@@ -1,5 +1,6 @@
 import codegen
 import tokens
+import strformat
 
 type
   Node = ref object of RootObj
@@ -52,9 +53,9 @@ type
 proc newNode(name: string): Node =
   Node(name: name)
 
-proc newIdentifier(name: string, keyword: string, value: string): Identifier =
+proc newIdentifier(keyword: string, value: string): Identifier =
   Identifier(
-    name: "REFERENCE",
+    name: "IDENTIFIER",
     keyword: keyword,
     value: value
   )
@@ -122,7 +123,7 @@ proc newUnaryOperation(
   )
 
 proc newOutside(outside: string, identifier: string): Outside =
-  Outside(outside: outside, identifier: identifier)
+  Outside(name: "OUTSIDE", outside: outside, identifier: identifier)
 
 proc newParser*(toks: seq[Token]): Parser =
   Parser(
@@ -149,14 +150,24 @@ proc expect(self: Parser, kind: string): Token =
 
 proc parseExpression(self: Parser): Node =
   var cur = self.current()
-  return newInteger("8", "43")
+  
+  case cur.kind
+  of "INT":
+    self.pos+=1
+    return newInteger("32", cur.value)
+  of "STRING":
+    self.pos+=1
+    return newString(cur.value)
+  else:
+    raise newException(ValueError, fmt"Did not expect {cur.kind} when parsing expression")
+
 
 proc parseAssignment(self: Parser, keyword: string): Node =
   var identTok = self.current()
   discard self.expect("EQUAL")
   self.pos+=1
   var valNode = self.parseExpression()
-  raise newException(ValueError, "parseAssignment not implemented")
+  return newAssignment(newIdentifier(keyword, identTok.value), valNode)
 
 proc parseStatement(self: Parser): Node =
   var cur = self.current()
@@ -171,7 +182,7 @@ proc parseStatement(self: Parser): Node =
   of "MUTFLEX":
     self.pos+=1
     self.parseAssignment("mutflex")
-  of "IDENTIFIER":
+  of "IDENT":
     self.parseAssignment("")
   of "UTILITY":
     var next = self.expect("IDENT")

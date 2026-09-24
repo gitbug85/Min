@@ -54,7 +54,7 @@ proc emit_arguments(tp: var Transpiler, tokens: var seq[Token]) =
 
 proc expect_value(tp: var Transpiler, tokens: var seq[Token]) =
   var cur = tokens[0]
-  if cur.kind == "NUMBER":
+  if cur.kind == "INT":
     tp.content.add(fmt"{cur.value}")
     tokens.delete(0)
   elif cur.kind == "STRING":
