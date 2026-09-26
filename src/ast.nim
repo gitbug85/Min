@@ -161,6 +161,8 @@ proc parseExpression(self: Parser): Node =
   else:
     raise newException(ValueError, fmt"Did not expect {cur.kind} when parsing expression")
 
+proc parseForCall(self: Parser): Node =
+  return newInteger("0", "0")
 
 proc parseAssignment(self: Parser, keyword: string): Node =
   var identTok = self.current()
