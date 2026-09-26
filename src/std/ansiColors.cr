@@ -6,7 +6,7 @@ macro define_color_fn(name, code)
   end
 end
 
-define_color_fn(colorRed, 31)
-define_color_fn(colorGreen, 32)
-define_color_fn(colorBlue, 34)
-define_color_fn(colorReset, 0)
+define_color_fn(crColorRed, 31)
+define_color_fn(crColorGreen, 32)
+define_color_fn(crColorBlue, 34)
+define_color_fn(crColorReset, 0)

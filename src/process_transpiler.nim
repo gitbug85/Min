@@ -29,5 +29,9 @@ let processes* = {
     "strDup": "rsStrDup",
     "strFree": "rsStrFree",
     "strConcat": "rsStrConcat",
-    "i32ToStr": "rsi32ToStr"
+    "i32ToStr": "rsi32ToStr",
+    "colorRed": "crColorRed",
+    "colorGreen": "crColorGreen",
+    "colorBlue": "crColorBlue",
+    "colorReset": "crColorReset"
     }.toTable

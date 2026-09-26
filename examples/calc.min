@@ -2,6 +2,7 @@ util math
 util string
 util io
 util rsPath
+util ansiColors
 
 use multiply
 
@@ -10,8 +11,8 @@ operator = arg(2)
 r_operand = strToi32(arg(3))
 
 if strEq(operator, "+"):
-    say i32ToStr(add(l_operand, r_operand))
+    say colorRed(i32ToStr(add(l_operand, r_operand)))
 if strEq(operator, "-"):
-    say i32ToStr(sub(l_operand, r_operand))
+    say colorRed(i32ToStr(sub(l_operand, r_operand)))
 if strEq(operator, "x"):
-    say i32ToStr(mult(l_operand, r_operand))
+    say colorRed(i32ToStr(mult(l_operand, r_operand)))

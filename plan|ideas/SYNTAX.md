@@ -90,9 +90,15 @@ To add:
 arr (Rust array)
 seq (Nim sequence)
 
-proc getThree(): int #{CDecl, NoMangle}
-    3
+getThree = proc(): int #{CDecl, NoMangle}
+
+exampleExample = case("string"): str
+    of "string":
+        return "string1"
 
 -> (in)
 
+{"key1", "val1"; "key2", "val2"}
 
+Put into some sort of resources file:
+https://regexr.com/

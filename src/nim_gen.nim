@@ -180,6 +180,13 @@ proc rsArg(index: csize_t): cstring {.importc.}
         tp.content.add("""
 proc nimEcho(s: cstring) {.cdecl, importc.}
 """)
+      elif cur.value == "ansiColors":
+        tp.content.add("""
+proc crColorRed(s: cstring): cstring {.cdecl, importc.}
+proc crColorGreen(s: cstring): cstring {.cdecl, importc.}
+proc crColorBlue(s: cstring): cstring {.cdecl, importc.}
+proc crColorReset(s: cstring): cstring {.cdecl, importc.}
+""")
       tokens.delete(0)
   elif cur.kind == "USE":
     tokens.delete(0)
