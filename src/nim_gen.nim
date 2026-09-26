@@ -182,10 +182,10 @@ proc nimEcho(s: cstring) {.cdecl, importc.}
 """)
       elif cur.value == "ansiColors":
         tp.content.add("""
-proc crColorRed(s: cstring): cstring {.cdecl, importc.}
-proc crColorGreen(s: cstring): cstring {.cdecl, importc.}
-proc crColorBlue(s: cstring): cstring {.cdecl, importc.}
-proc crColorReset(s: cstring): cstring {.cdecl, importc.}
+proc rsColorRed(s: cstring): cstring {.cdecl, importc.}
+proc rsColorGreen(s: cstring): cstring {.cdecl, importc.}
+proc rsColorBlue(s: cstring): cstring {.cdecl, importc.}
+proc rsColorReset(s: cstring): cstring {.cdecl, importc.}
 """)
       tokens.delete(0)
   elif cur.kind == "USE":
