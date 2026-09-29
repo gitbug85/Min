@@ -1,6 +1,43 @@
 
 # Basic arithmetic
 
+def intAdd(a, b)
+  a + b
+end
+
+def intSub(a, b)
+  a - b
+end
+
+def intMult(a, b)
+  a * b
+end
+
+def intDiv(a, b)
+  raise ArgumentError, "Cannot divide by zero" if b == 0
+
+  a / b
+end
+
+def intMod(a, b)
+  raise ArgumentError, "Cannot divide by zero" if b == 0
+
+  a % b
+end
+
+def intPow(a, b)
+  a ** b
+end
+
+# Slightly more advanced functions
+
+def intAbs(a)
+  a.abs
+end
+
+def intSqrtFloor(a)
+  Math.sqrt(a).floor
+end
 
 # Radians & Degrees
 
