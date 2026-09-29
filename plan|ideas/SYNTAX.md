@@ -53,11 +53,11 @@ echo greeting
 | Less Than or Equal To |<=|
 | Logical AND |&|
 | Logical OR |\||
-| Logical NOT |!|
+| Logical NOT |✗|
 | Bitwise AND |&|
 | Bitwise OR |\||
 | Bitwise XOR |\|\||
-| Bitwise NOT |!|
+| Bitwise NOT |✗|
 | Left Shift |<<|
 | Right Shift |>>|
 | Assignment |=|
