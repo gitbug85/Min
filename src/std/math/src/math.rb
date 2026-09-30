@@ -76,3 +76,9 @@ end
 def tanD(x)
   Math.tan(degToRad(x))
 end
+
+# Conversions
+
+def stringToInt(s)
+  s.to_i
+end
