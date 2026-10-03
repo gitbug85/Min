@@ -79,6 +79,6 @@ end
 
 # Conversions
 
-def stringToInt(s)
+def strToInt(s)
   s.to_i
 end
