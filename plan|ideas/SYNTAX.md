@@ -90,7 +90,7 @@ To add:
 arr (Rust array)
 seq (Nim sequence)
 
-getThree = proc(): int #{CDecl, NoMangle}
+proc getThree: int #{CDecl, NoMangle} = 
 
 exampleExample = case("string"): str
     of "string":
