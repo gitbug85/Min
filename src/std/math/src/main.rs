@@ -1,30 +1,62 @@
-use magnus::{Error, Ruby, Value, prelude::*};
-use std::os::raw::c_char;
+use pyo3::prelude::*;
+use pyo3::types::PyModule;
 
-#[no_mangle]
-pub extern "C" fn call(s: *const c_char) -> i64 {
-    let method = unsafe {
-        match CStr::from_ptr(s).to_str() {
-            Ok(s) => s,
-            Err(_) => return -1,
-        }
-    };
+#[unsafe(no_mangle)]
+pub extern "C" fn int_add(
+    module: &Bound<'_, PyModule>,
+    a: i32,
+    b: i32,
+) -> i32 {
+    module
+        .getattr("intAdd")
+        .unwrap()
+        .call1((a, b))
+        .unwrap()
+        .extract()
+        .unwrap()
+}
 
-    // Try putting it into it's own function because it says it expects a function not a closure. I don't think this wil effect it though.
-    let mut result = magnus::Ruby::init(|ruby| -> Result<(), Error> {
-        ruby.require("./math")?;
+#[unsafe(no_mangle)]
+pub extern "C" fn int_sub(
+    module: &Bound<'_, PyModule>,
+    a: i32,
+    b: i32,
+) -> i32 {
+    module
+        .getattr("intSub")
+        .unwrap()
+        .call1((a, b))
+        .unwrap()
+        .extract()
+        .unwrap()
+}
 
-        let receiver = ruby.eval("self")?;
-        result = receiver.funcall(method, (40, 2))?;
+#[unsafe(no_mangle)]
+pub extern "C" fn int_div(
+    module: &Bound<'_, PyModule>,
+    a: i32,
+    b: i32,
+) -> i32 {
+    module
+        .getattr("intDiv")
+        .unwrap()
+        .call1((a, b))
+        .unwrap()
+        .extract()
+        .unwrap()
+}
 
-        Ok(())
-    })?;
-
-    match result {
-        Ok(value) => value,
-        Err(err) => {
-            eprintln!("Ruby error: {err}");
-            -1
-        }
-    }
+#[unsafe(no_mangle)]
+pub extern "C" fn int_mult(
+    module: &Bound<'_, PyModule>,
+    a: i32,
+    b: i32,
+) -> i32 {
+    module
+        .getattr("intMult")
+        .unwrap()
+        .call1((a, b))
+        .unwrap()
+        .extract()
+        .unwrap()
 }
