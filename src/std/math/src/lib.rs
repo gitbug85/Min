@@ -2,11 +2,7 @@ use pyo3::prelude::*;
 use pyo3::types::PyModule;
 
 #[unsafe(no_mangle)]
-pub extern "C" fn int_add(
-    module: &Bound<'_, PyModule>,
-    a: i32,
-    b: i32,
-) -> i32 {
+pub extern "C" fn intAdd(module: &Bound<'_, PyModule>, a: i32, b: i32) -> i32 {
     module
         .getattr("intAdd")
         .unwrap()
@@ -17,11 +13,7 @@ pub extern "C" fn int_add(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn int_sub(
-    module: &Bound<'_, PyModule>,
-    a: i32,
-    b: i32,
-) -> i32 {
+pub extern "C" fn intSub(module: &Bound<'_, PyModule>, a: i32, b: i32) -> i32 {
     module
         .getattr("intSub")
         .unwrap()
@@ -32,11 +24,7 @@ pub extern "C" fn int_sub(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn int_div(
-    module: &Bound<'_, PyModule>,
-    a: i32,
-    b: i32,
-) -> i32 {
+pub extern "C" fn intDiv(module: &Bound<'_, PyModule>, a: i32, b: i32) -> i32 {
     module
         .getattr("intDiv")
         .unwrap()
@@ -47,11 +35,7 @@ pub extern "C" fn int_div(
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn int_mult(
-    module: &Bound<'_, PyModule>,
-    a: i32,
-    b: i32,
-) -> i32 {
+pub extern "C" fn intMult(module: &Bound<'_, PyModule>, a: i32, b: i32) -> i32 {
     module
         .getattr("intMult")
         .unwrap()

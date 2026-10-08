@@ -8,3 +8,4 @@ examples/calc
 src/__pycache__
 *.o
 *.a
+*target

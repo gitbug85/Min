@@ -127,7 +127,7 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
   elif cur.kind == "UTILITY":
       tokens.delete(0)
       cur = tokens[0]
-      
+
       var path = findExe("min")
       var parent = parentDir(path)
       var standard_library = parent / "std" / (cur.value & ".a")
@@ -136,6 +136,9 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
         tp.content.add("importAbsolutePath(\"" & (parent / "std" / cur.value) & "\")")
         tokens.delete(0)
         return
+      if cur.value.startsWith("ffi"):
+        tp.content.add("importAbsolutePath(\"" & (parent / "std" / "math" / "target" / "release" / "libmath.a") & "\")")
+        tokens.delete(0)
 
       tp.content.add("{.passL: \"" & standard_library & "\".}\n")
 
@@ -186,6 +189,13 @@ proc rsColorRed(s: cstring): cstring {.cdecl, importc.}
 proc rsColorGreen(s: cstring): cstring {.cdecl, importc.}
 proc rsColorBlue(s: cstring): cstring {.cdecl, importc.}
 proc rsColorReset(s: cstring): cstring {.cdecl, importc.}
+""")
+      elif cur.value == "ffiMath":
+        tp.content.add("""
+proc intAdd(a: int32, b: int32): int32 {.importc.}
+proc intSub(a: int32, b: int32): int32 {.importc.}
+proc intDiv(a: int32, b: int32): int32 {.importc.}
+proc intMult(a: int32, b: int32): int32 {.importc.}
 """)
       tokens.delete(0)
   elif cur.kind == "USE":
