@@ -1,7 +1,10 @@
 util io
 util string
+util ffiMath
+util math
 
-name = arg(1)
-mut greeting = strConcat(strConcat("\nHello ", name), "\n")
+mut name = strToi32(arg(1))
+name = ffiAdd(name, 5)
+mut greeting = strConcat(strConcat("\nHello ", i32ToStr(name)), "\n")
 
 say greeting

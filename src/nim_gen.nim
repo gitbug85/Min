@@ -137,10 +137,10 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
         tokens.delete(0)
         return
       if cur.value.startsWith("ffi"):
-        tp.content.add("importAbsolutePath(\"" & (parent / "std" / "math" / "target" / "release" / "libmath.a") & "\")")
+        tp.content.add("{.passL: \"" & (parent / "std" / "math" / "target" / "release" / "libmath.a") & "\".}\n")
         tokens.delete(0)
-
-      tp.content.add("{.passL: \"" & standard_library & "\".}\n")
+      else:
+        tp.content.add("{.passL: \"" & standard_library & "\".}\n")
 
       if cur.value == "math":
         tp.content.add("""

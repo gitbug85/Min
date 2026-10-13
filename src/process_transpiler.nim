@@ -33,5 +33,10 @@ let processes* = {
     "colorRed": "rsColorRed",
     "colorGreen": "rsColorGreen",
     "colorBlue": "rsColorBlue",
-    "colorReset": "rsColorReset"
+    "colorReset": "rsColorReset",
+    # ffiMath
+    "ffiAdd": "intAdd",
+    "ffiSub": "intSub",
+    "ffiDiv": "intDiv",
+    "ffiMult": "intMult"
     }.toTable
