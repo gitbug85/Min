@@ -1,12 +1,12 @@
 import std/macros
 macro importAbsolutePath(path: static[string]): untyped =
   result = newTree(nnkImportStmt, newLit(path))
-{.passL: "/home/k/Projects/Active/Nim/Min/src/std/io.a".}
+{.passL: "/home/k/Projects/Min/src/std/io.a".}
 proc rsSay(s: cstring) {.cdecl, importc.}
 proc rsArgCount(): csize_t {.importc.}
 proc rsArg(index: csize_t): cstring {.importc.}
 
-{.passL: "/home/k/Projects/Active/Nim/Min/src/std/string.a".}
+{.passL: "/home/k/Projects/Min/src/std/string.a".}
 proc rsStrLen(s: cstring): csize_t {.importc.}
 proc rsStrEq(a: cstring, b: cstring): bool {.importc.}
 proc rsStrDup(s: cstring): cstring {.importc.}
@@ -14,12 +14,12 @@ proc rsStrFree(s: cstring) {.importc.}
 proc rsStrConcat(a: cstring, b: cstring): cstring {.importc.}
 proc rsi32ToStr(value: int32): cstring {.importc.}
 
-{.passL: "/home/k/Projects/Active/Nim/Min/src/std/math/target/release/libmath.a".}
+{.passL: "/home/k/Projects/Min/src/std/math/target/release/libmath.a".}
 proc intAdd(a: int32, b: int32): int32 {.importc.}
 proc intSub(a: int32, b: int32): int32 {.importc.}
 proc intDiv(a: int32, b: int32): int32 {.importc.}
 proc intMult(a: int32, b: int32): int32 {.importc.}
-{.passL: "/home/k/Projects/Active/Nim/Min/src/std/math.a".}
+{.passL: "/home/k/Projects/Min/src/std/math.a".}
 proc rsAdd(a: int32, b: int32): int32 {.importc.}
 proc rsSub(a: int32, b: int32): int32 {.importc.}
 proc rsMult(a: int32, b: int32): int32 {.importc.}

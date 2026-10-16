@@ -1,4 +1,4 @@
-nim c -o:./src/min ./src/min.nim
+nim c -o:./bin/min ./src/min.nim
 rustc --crate-type=staticlib ./src/std/math.rs -o ./src/std/math.a
 rustc --crate-type=staticlib ./src/std/rsPath.rs -o ./src/std/rsPath.a
 rustc --crate-type=staticlib ./src/std/string.rs -o ./src/std/string.a
