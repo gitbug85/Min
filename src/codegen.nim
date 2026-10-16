@@ -1,6 +1,5 @@
 import tokens
 import ast
-import std/syncio
 
 proc lower*(tokens: seq[Token], target: string): string =
     flushFile(stdout)
