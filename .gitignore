@@ -1,7 +1,7 @@
 nimcache/
 nimblecache/
 htmldocs/
-src/min
+bin/min
 examples/greeting
 examples/ascii_art_expressions
 examples/calc
@@ -9,3 +9,5 @@ src/__pycache__
 *.o
 *.a
 *target
+src/min_new
+*_new.nim

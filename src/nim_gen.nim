@@ -129,7 +129,7 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
       cur = tokens[0]
 
       var path = findExe("min")
-      var parent = parentDir(path)
+      var parent = parentDir(parentDir(path)) / "src"
       var standard_library = parent / "std" / (cur.value & ".a")
 
       if cur.value.startsWith("nim"):

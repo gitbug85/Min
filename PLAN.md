@@ -1,3 +1,7 @@
+# Functions to impliment
+Not function.
+Quit function
+
 # Broad
 
 I find both Nim and Rust to have features I like but some downsides.

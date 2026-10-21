@@ -10,7 +10,6 @@ import animate
 import codegen
 
 var p = initOptParser()
-let appDir = getAppDir()
 
 var command = ""
 var path = ""
@@ -45,7 +44,7 @@ if command == "t":
     quit "Incorrect file extension!"
   var lexemes: seq[Segment] = lex(path)
   var tokens: seq[Token] = tokenize(lexemes)
-  
+
   for tok in tokens:
     echo tok.kind
 
