@@ -1,6 +1,6 @@
-# Functions to impliment
-Not function.
-Quit function
+# Quick
+ - Improve lexing visibility & functions
+ - Improve error collecting
 
 # Broad
 
@@ -57,11 +57,11 @@ echo greeting
 | Less Than or Equal To |<=|
 | Logical AND |&|
 | Logical OR |\||
-| Logical NOT |✗|
+| Logical NOT |!|
 | Bitwise AND |&|
 | Bitwise OR |\||
 | Bitwise XOR |\|\||
-| Bitwise NOT |✗|
+| Bitwise NOT |!|
 | Left Shift |<<|
 | Right Shift |>>|
 | Assignment |=|
@@ -84,7 +84,8 @@ Path -> '~/path'
 String -> "string"
 Regex -> \`regex\`
 
-Current instance -> $.
+Current instance -> s.member
+Turn to min string -> $string
 
 \#\#\
 Multiline comments\
