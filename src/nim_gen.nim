@@ -114,6 +114,11 @@ proc expect_statement(tp: var Transpiler, tokens: var seq[Token]) =
     tokens.delete(0)
     expect_value(tp, tokens)
     tp.content.add(")")
+  elif cur.kind == "QUIT":
+    tp.content.add("nimQuit(")
+    tokens.delete(0)
+    expect_value(tp, tokens)
+    tp.content.add(")")
   elif cur.kind == "IF":
     tp.content.add("if ")
     tokens.delete(0)
@@ -150,7 +155,7 @@ proc rsMult(a: int32, b: int32): int32 {.importc.}
 proc rsIntDiv(a: int32, b: int32): int32 {.importc.}
 proc rsStrToi32(s: cstring): int32 {.importc.}
 """)
-      elif cur.value == "libnimPath":
+      elif cur.value == "nimPath":
         tp.content.add("""
 proc nimJoinPath(p: cstring, o: cstring): cstring {.importc.}
 proc nimParentDir(p: cstring): cstring {.importc.}
@@ -179,9 +184,17 @@ proc rsSay(s: cstring) {.cdecl, importc.}
 proc rsArgCount(): csize_t {.importc.}
 proc rsArg(index: csize_t): cstring {.importc.}
 """)
-      elif cur.value == "libnimEcho":
+      elif cur.value == "nimEcho":
         tp.content.add("""
 proc nimEcho(s: cstring) {.cdecl, importc.}
+""")
+      elif cur.value == "nimQuit":
+        tp.content.add("""
+proc nimQuit(s: cstring) {.cdecl, importc.}
+""")
+      elif cur.value == "nimNot":
+        tp.content.add("""
+proc nimNot(b: bool) {.cdecl, importc.}
 """)
       elif cur.value == "ansiColors":
         tp.content.add("""

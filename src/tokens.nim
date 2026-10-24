@@ -45,6 +45,8 @@ proc tokenize*(lexemes_objs: var seq[Segment]): seq[Token] =
         result.add(Token(kind: "SAY", value: lexeme))
       of "echo":
         result.add(Token(kind: "ECHO", value: lexeme))
+      of "quit":
+        result.add(Token(kind: "QUIT", value: lexeme))
       of "mut":
         result.add(Token(kind: "MUTABLE", value: lexeme))
       of "flex":

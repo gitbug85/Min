@@ -3,6 +3,7 @@ util string
 util io
 util rsPath
 util ansiColors
+util nimQuit
 
 use multiply
 
@@ -16,3 +17,5 @@ if strEq(operator, "-"):
     say colorRed(i32ToStr(sub(l_operand, r_operand)))
 if strEq(operator, "x"):
     say colorRed(i32ToStr(mult(l_operand, r_operand)))
+
+quit "Calculation complete!"
