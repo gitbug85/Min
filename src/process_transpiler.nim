@@ -38,5 +38,7 @@ let processes* = {
     "ffiAdd": "intAdd",
     "ffiSub": "intSub",
     "ffiDiv": "intDiv",
-    "ffiMult": "intMult"
+    "ffiMult": "intMult",
+    # nimNot
+    "not": "nimNot",
     }.toTable

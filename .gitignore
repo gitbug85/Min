@@ -9,5 +9,3 @@ src/__pycache__
 *.o
 *.a
 *target
-src/min_new
-*_new.nim

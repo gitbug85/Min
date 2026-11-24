@@ -34,7 +34,7 @@ while true:
 
 if command == "t":
   if path == "":
-    quit("Usage: myprogram t <path>", 1)
+    quit("Usage: min t <path>", 1)
 
   if not fileExists(path):
     quit "File not found!"

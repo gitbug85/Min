@@ -1,9 +1,4 @@
-import sequtils
-import std/json
-import std/os
-import osproc
-import std/[json, re, os]
-import std/[re, sequtils]
+import std/[re, sequtils, strutils, json, re, os, osproc]
 
 type
   Segment* = object
@@ -35,31 +30,32 @@ proc splitKeepSep(s: string): seq[string] =
   if last < s.len:
     result.add(s[last .. ^1])
 
+# Make fragments based on lines
+proc fragment_lines(content: string): seq[Segment] =
+  for line in content.splitLines():
+      var new_line = line
+      let commentIdx = new_line.find('#')
+      if commentIdx != -1:
+          new_line = new_line[0 ..< commentIdx]
+      var count = 0
+      while count < new_line.len and new_line[count] == ' ':
+          inc(count)
+      new_line = new_line[count .. ^1]
+      let tabs = count div 4
+      let leftover = count mod 4
+
+      if leftover != 0:
+          quit("Error: Invalid indentation")
+
+      for _ in 0 .. tabs-1:
+          result.add(Segment(val: "\t", col: 0, ln: 0))
+
+      result.add(Segment(val: new_line, col: 0, ln: 0))
+      result.add(Segment(val: "\n", col: 0, ln: 0))
+
 proc lex*(path: string): seq[Segment] =
-
-    # Make fragments based on lines
-    var fragments: seq[Segment] = @[]
-
-    for line in lines(path):
-        var new_line = line
-        let commentIdx = new_line.find('#')
-        if commentIdx != -1:
-            new_line = new_line[0 ..< commentIdx]
-        var count = 0
-        while count < new_line.len and new_line[count] == ' ':
-            inc(count)
-        new_line = new_line[count .. ^1]
-        let tabs = count div 4
-        let leftover = count mod 4
-        
-        if leftover != 0:
-            quit("Error: Invalid indentation")
-        
-        for _ in 0 .. tabs-1:
-            fragments.add(Segment(val: "\t", col: 0, ln: 0))
-        
-        fragments.add(Segment(val: new_line, col: 0, ln: 0))
-        fragments.add(Segment(val: "\n", col: 0, ln: 0))
+    let content = readFile(path)
+    var fragments: seq[Segment] = fragment_lines(content)
 
     # Make more fragments using regex
     var new_fragments: seq[Segment] = @[]
@@ -127,7 +123,4 @@ proc lex*(path: string): seq[Segment] =
             else:
                 lexemes.add(Segment(val: fragment.val, col: fragment.col, ln: fragment.ln))
 
-    # Add code to join fragments together for multi-character operators
-
     return lexemes
-

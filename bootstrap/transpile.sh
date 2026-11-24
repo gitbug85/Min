@@ -1,3 +1,3 @@
 MIN_DIR=$(dirname "$realpath")
-min t src/min_new.min
-nim c src/min_new.nim
+min t min_src/min.min
+nim c min_src/min.nim

@@ -1,0 +1,16 @@
+util io
+util nimNot
+use tokens
+use nim_gen
+use lexer
+use animate
+use codegen
+
+cmd = arg(1)
+
+if strEq(cmd, "t"):
+    path = arg(2)
+    if strEq(path, ""):
+        quit "Usage: min t <path>"
+    if not(isFile(path)):
+        quit "Must select a file"

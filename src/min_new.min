@@ -1,9 +1,0 @@
-util io
-
-use tokens
-use nim_gen
-use lexer
-use animate
-use codegen
-
-say arg(1)

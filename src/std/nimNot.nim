@@ -1,3 +1,3 @@
 
-proc nimNot*(b: bool) =
-  not bool
+proc nimNot*(b: bool): bool =
+  not b
