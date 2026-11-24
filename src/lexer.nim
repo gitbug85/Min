@@ -53,74 +53,76 @@ proc fragment_lines(content: string): seq[Segment] =
       result.add(Segment(val: new_line, col: 0, ln: 0))
       result.add(Segment(val: "\n", col: 0, ln: 0))
 
+# Make more fragments using regex
+proc useRegex(fragments: var seq[Segment]) =
+  var new_fragments: seq[Segment] = @[]
+  for fragment in fragments:
+      let regex = re"""([=+\-\*\/"\(\)\\,# ])""" # ([=\+\-\*\/"\(\)\\,# ])
+      let parts = splitKeepSep(fragment.val).filterIt(it.len > 0)
+      for part in parts:
+          new_fragments.add(Segment(val: part, col: 0, ln: 0))
+  fragments = new_fragments
+
+# Join fragments together for strings, paths and regex
+proc join(fragments: var seq[Segment]) =
+  var status = Status.NotJoining
+  var lexemes: seq[Segment] = @[]
+  var current_lexeme = Segment(val: "", col: 0, ln: 0)
+  var previous_backslash = false
+
+  for fragment in fragments.mitems:
+      var str = fragment.val
+
+      if str == "\\":
+          previous_backslash = true
+          append_to_seg(current_lexeme, fragment)
+      elif str == "\"":
+          if status == Status.JoiningString:
+              if previous_backslash: # Escaped double quote
+                  append_to_seg(current_lexeme, fragment)
+                  previous_backslash = false
+              else: # Closing double quote
+                  status = Status.NotJoining
+                  append_to_seg(current_lexeme, fragment)
+                  lexemes.add(current_lexeme)
+                  current_lexeme = Segment(val: "", col: 0, ln: 0)
+          else: # Opening double quote
+              status = Status.JoiningString
+              append_to_seg(current_lexeme, fragment)
+      elif str == "\'":
+          if status == Status.JoiningPath: # Closing quote
+              status = Status.NotJoining
+              append_to_seg(current_lexeme, fragment)
+              lexemes.add(current_lexeme)
+              current_lexeme = Segment(val: "", col: 0, ln: 0)
+          else: # Opening quote
+              status = Status.JoiningPath
+              append_to_seg(current_lexeme, fragment)
+      elif str == "`":
+          if status == Status.JoiningRegex:
+              if previous_backslash: # Escaped backtick
+                  append_to_seg(current_lexeme, fragment)
+                  previous_backslash = false
+              else: # Closing backtick
+                  status = NotJoining
+                  append_to_seg(current_lexeme, fragment)
+                  lexemes.add(current_lexeme)
+                  current_lexeme = Segment(val: "", col: 0, ln: 0)
+          else: # Opening backtick
+              status = Status.JoiningRegex
+              append_to_seg(current_lexeme, fragment)
+      else:
+          if status == Status.JoiningString or status == Status.JoiningPath or status == Status.JoiningRegex:
+              append_to_seg(current_lexeme, fragment)
+              previous_backslash = false
+          else:
+              lexemes.add(Segment(val: fragment.val, col: fragment.col, ln: fragment.ln))
+  fragments = lexemes
+
 proc lex*(path: string): seq[Segment] =
     let content = readFile(path)
     var fragments: seq[Segment] = fragment_lines(content)
+    useRegex(fragments)
+    join(fragments)
 
-    # Make more fragments using regex
-    var new_fragments: seq[Segment] = @[]
-
-    for fragment in fragments:
-        let regex = re"""([=+\-\*\/"\(\)\\,# ])""" # ([=\+\-\*\/"\(\)\\,# ])
-        let parts = splitKeepSep(fragment.val).filterIt(it.len > 0)
-        for part in parts:
-            new_fragments.add(Segment(val: part, col: 0, ln: 0))
-
-    fragments = new_fragments
-
-    # Join fragments together for strings, paths and regex
-
-    var status = Status.NotJoining
-    var lexemes: seq[Segment] = @[]
-    var current_lexeme = Segment(val: "", col: 0, ln: 0)
-    var previous_backslash = false
-
-    for fragment in fragments.mitems:
-        var str = fragment.val
-
-        if str == "\\":
-            previous_backslash = true
-            append_to_seg(current_lexeme, fragment)
-        elif str == "\"":
-            if status == Status.JoiningString:
-                if previous_backslash: # Escaped double quote
-                    append_to_seg(current_lexeme, fragment)
-                    previous_backslash = false
-                else: # Closing double quote
-                    status = Status.NotJoining
-                    append_to_seg(current_lexeme, fragment)
-                    lexemes.add(current_lexeme)
-                    current_lexeme = Segment(val: "", col: 0, ln: 0)
-            else: # Opening double quote
-                status = Status.JoiningString
-                append_to_seg(current_lexeme, fragment)
-        elif str == "\'":
-            if status == Status.JoiningPath: # Closing quote
-                status = Status.NotJoining
-                append_to_seg(current_lexeme, fragment)
-                lexemes.add(current_lexeme)
-                current_lexeme = Segment(val: "", col: 0, ln: 0)
-            else: # Opening quote
-                status = Status.JoiningPath
-                append_to_seg(current_lexeme, fragment)
-        elif str == "`":
-            if status == Status.JoiningRegex:
-                if previous_backslash: # Escaped backtick
-                    append_to_seg(current_lexeme, fragment)
-                    previous_backslash = false
-                else: # Closing backtick
-                    status = NotJoining
-                    append_to_seg(current_lexeme, fragment)
-                    lexemes.add(current_lexeme)
-                    current_lexeme = Segment(val: "", col: 0, ln: 0)
-            else: # Opening backtick
-                status = Status.JoiningRegex
-                append_to_seg(current_lexeme, fragment)
-        else:
-            if status == Status.JoiningString or status == Status.JoiningPath or status == Status.JoiningRegex:
-                append_to_seg(current_lexeme, fragment)
-                previous_backslash = false
-            else:
-                lexemes.add(Segment(val: fragment.val, col: fragment.col, ln: fragment.ln))
-
-    return lexemes
+    return fragments
